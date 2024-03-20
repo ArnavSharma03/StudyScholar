@@ -19,3 +19,5 @@ end. To manage the state of the application, we use Redux, which is a popular st
 management library for React.
 
 
+Development environment: VSCode
+
