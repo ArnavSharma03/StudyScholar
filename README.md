@@ -17,3 +17,5 @@ frameworks that help make the user interface look good and responsive.
 Additionally, we use some npm packages to add extra functionality to the front 
 end. To manage the state of the application, we use Redux, which is a popular state 
 management library for React.
+
+
