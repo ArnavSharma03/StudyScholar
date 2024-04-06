@@ -115,3 +115,9 @@ body {
 .lable-style {
     @apply text-[14px] text-richblack-5;
 }
+
+
+
+.section_heading {
+    @apply text-xl font-bold text-richblack-5 lg:text-2xl;
+}

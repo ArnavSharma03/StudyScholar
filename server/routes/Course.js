@@ -5,7 +5,7 @@ const router = express.Router();
 const {auth , isAdmin , isStudent , isInstructor} = require("../middlewares/auth")
 
 
-const { createCategory , getAllCategories, categoryPageDetails } = require("../controllers/Category");
+const { createCategory , getAllCategories, getCategoryPageDetails } = require("../controllers/Category");
 
 
 const { createCourse , editCourse, getAllCourses, getInstructorCourses } = require("../controllers/Course");
@@ -27,7 +27,7 @@ const { createRating, getAverageRating, getAllRating} = require("../controllers/
 // contollers ---> Category.js
 router.post("/createCategory", auth , isAdmin, createCategory);         
 router.get("/getAllCategories", getAllCategories);                 
-router.get("/categoryPageDetails", categoryPageDetails);                           // xxx Testing Left        
+router.post("/getCategoryPageDetails", getCategoryPageDetails);                           // xxx Testing Left        
 
 
 

@@ -84,3 +84,10 @@ export const courseEndpoints = {
 export const categories = {
     CATEGORIES_API: BASE_URL + "/course/getAllCategories"
 }
+
+
+
+// CATALOG PAGE DATA
+export const catalogData = {
+    CATALOGPAGEDATA_API: BASE_URL + "/course/getCategoryPageDetails",
+}

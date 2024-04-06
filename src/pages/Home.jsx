@@ -166,7 +166,7 @@ const Home = () => {
             <div className="w-11/12 mx-auto max-w-maxContent flex-col items-center justify-between gap-8 first-letter bg-richblack-900 text-white ">
 
                 {/* Become a instructor section */}
-                <InstructorSection />
+                {/* <InstructorSection /> */}
 
 
                 {/* Reviws from Other Learner */}
@@ -179,7 +179,7 @@ const Home = () => {
 
             
             {/* Fotter */}
-            <Footer />
+            {/* <Footer />  */}
             
         </div>
     )
