@@ -17,6 +17,7 @@ const { default: mongoose } = require("mongoose");
 
 exports.capturePayment = async( request, respond) => {
     
+    
 }
 
 
