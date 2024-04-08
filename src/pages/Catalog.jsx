@@ -15,6 +15,7 @@ import Error from "./Error";
 // BACKED API CONNECTOR COMPONENTS
 import { apiConnector } from "../services/apiconnector";
 
+
 // BACKEND API URL
 import { categories } from "../services/apis";
 
@@ -22,6 +23,8 @@ import { categories } from "../services/apis";
 
 // BACKEND APIS CALLS
 import { getCatalogPageData } from "../services/operations/pageAndComponntDatas";
+
+
 
 
 const Catalog = () => {

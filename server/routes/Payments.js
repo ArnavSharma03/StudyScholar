@@ -1,14 +1,14 @@
 const express = require("express");
 const router = express.Router();
 
-const {capturePayment, verifySignature} = require("../controllers/Payments");
+const { capturePayment, verifyPayment, sendPaymentSuccessEmail } = require("../controllers/Payments");
 
-const {auth, isInstructor, isStudent , isAdmin} = require("../middlewares/auth");
+const { auth, isInstructor, isStudent , isAdmin } = require("../middlewares/auth");
 
 // controllers ---> Payments.js
-router.post("/capturePayment", auth, isStudent, capturePayment);                // xxx Testing left
-router.post("/verifySignature", verifySignature);                               // xxx Testing left
-
+router.post("/capturePayment", auth, isStudent, capturePayment);                    // xxx Testing left
+router.post("/verifyPayment", auth, isStudent, verifyPayment);                    // xxx Testing left
+router.post("/sendPaymentSuccessEmail", auth, isStudent, sendPaymentSuccessEmail);  // xxx Testing left                                    // xxx Testing left
 
 
 

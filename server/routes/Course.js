@@ -10,7 +10,7 @@ const { createCategory , getAllCategories, getCategoryPageDetails } = require(".
 
 const { createCourse , editCourse, getAllCourses, getInstructorCourses } = require("../controllers/Course");
 const { getFullCourseDetails, deleteCourse } = require("../controllers/Course");
-
+const { getCourseDetails } = require("../controllers/Course");
 
 const { createSection, updateSection, deleteSection } = require("../controllers/Section");
 
@@ -36,9 +36,10 @@ router.post("/createCourse", auth, isInstructor, createCourse);
 router.post("/editCourse", auth, isInstructor, editCourse);                     // newly added  xxx Testing Left    
 router.get("/getAllCourses", getAllCourses);
 router.post("/getFullCourseDetails",auth, getFullCourseDetails);
+// Get Details for a Specific Courses
+router.post("/getCourseDetails", getCourseDetails);                               // newly added
 router.delete("/deleteCourse", deleteCourse);                                     // newly added
 router.get("/getInstructorCourses",auth, isInstructor, getInstructorCourses);     // newly added
-
 
 
 // controllers ---> Section.js

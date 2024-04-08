@@ -316,7 +316,7 @@ exports.getAllCourses = async(request, respond) => {
 
 
 /********************************************************************************************************************************/
-// getCourseDetails
+// getFullCourseDetails
 /********************************************************************************************************************************/
 
 
@@ -387,6 +387,91 @@ exports.getFullCourseDetails = async (req, res) => {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/********************************************************************************************************************************/
+// getCourseDetails
+/********************************************************************************************************************************/
+
+
+
+
+exports.getCourseDetails = async (request, respond) => {
+    try {
+        const { courseId } = request.body
+        const courseDetails = await Course.findOne({ _id: courseId })
+        .populate({
+            path: "instructor",
+            populate: {
+                path: "additionalDetails",
+            },
+            })
+            .populate("category")
+            //.populate("ratingAndReviews")
+            .populate({
+            path: "courseContent",
+            populate: {
+                path: "subSection",
+                select: "-videoUrl",
+            }
+        }).exec()
+
+        if (!courseDetails) {
+            return respond.status(400).json({
+                success: false,
+                message: `Could not find course with id: ${courseId}`,
+            })
+        }
+
+
+
+        let totalDurationInSeconds = 0;
+        courseDetails.courseContent.forEach((content) => {
+            content.subSection.forEach((subSection) => {
+            const timeDurationInSeconds = parseInt(subSection.timeDuration);
+            totalDurationInSeconds += timeDurationInSeconds;
+            })
+        })
+
+        const totalDuration = convertSecondsToDuration(totalDurationInSeconds);
+
+
+        return respond.status(200).json({
+            success: true,
+            data: {
+                courseDetails,
+                totalDuration,
+            },
+        });
+    } 
+    catch (error) {
+        return respond.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+}
 
 
 

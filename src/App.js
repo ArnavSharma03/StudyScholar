@@ -25,7 +25,7 @@ import UpdatePassword from "./pages/UpdatePassword";
 import VerifyEmail from "./pages/VerifyEmail";
 import Error from "./pages/Error";
 import Catalog from "./pages/Catalog";
-
+import CourseDetails from "./pages/CourseDetails";
 
 // private routes and open Routes
 import OpenRoute from "./components/core/Auth/OpenRoute";
@@ -53,6 +53,7 @@ function App() {
             <Route path="/contact" element={  <Contact />  } />
             {/* Later Added  */}
             <Route path="/catalog/:catalogName" element={ <Catalog />} />
+            <Route path="courses/:courseId" element={ <CourseDetails />} />
 
 
 
