@@ -277,20 +277,19 @@ const enrollStudents = async (courses, userId, respond) => {
             if (!enrolledCourse) {
                 return respond.status(500).json({ 
                     success: false, 
-                    error: "Course not found" });
+                    error: "Course not found" 
+                });
             }
             console.log("Updated course: ", enrolledCourse);
 
 
 
-
+            // Once The user Is Enrolled Create is Progess ---> Newly Added
             const courseProgress = await CourseProgress.create({
                 courseID: courseId,
                 userId: userId,
                 completedVideos: [],
             })
-
-
 
 
             // Find the student and add the course to their list of enrolled courses
@@ -299,6 +298,7 @@ const enrollStudents = async (courses, userId, respond) => {
                 {
                     $push: {
                         courses: courseId,
+                        // Newly Added
                         courseProgress: courseProgress._id,
                     }
                 },

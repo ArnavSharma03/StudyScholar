@@ -21,7 +21,7 @@ exports.createRating = async(request, respond) => {
         // fetch incoming details
         const {courseId, rating, review} = request.body;
         // fetch user id
-        const {userId} = request.user.id;
+        const userId = request.user.id;
         // check input fields are empty or not
         if(!courseId || !rating || !review || !userId) {
             return respond.status(301).json({
@@ -30,11 +30,11 @@ exports.createRating = async(request, respond) => {
             });
         }
         // Check for student is enrolled or not ---> only those student allow to rate those are enrolled
-        const enrolledStudent = await Course.findById({_id:courseId , enrolledStudent: { $elemMatch: {$eq: userId}} });
+        const enrolledStudent = await Course.findOne({_id:courseId , studentEnrolled: { $elemMatch: {$eq: userId}} });
         if(!enrolledStudent) {
             return respond.status(301).json({
                 success:false,
-                message:"Sorry You are Not Allowed To Rate This course Enroll in course first",
+                message:"Student is not enrolled in this course",
             });
         }
         // check user already rated the course
@@ -42,7 +42,7 @@ exports.createRating = async(request, respond) => {
         if(existingRating) {
             return respond.status(302).json({
                 success:false,
-                message:"You already rated the course, you are not allowed to update the Ratings",
+                message:"Course already reviewed by user",
             });
         }
         // save a entry in db
@@ -52,8 +52,10 @@ exports.createRating = async(request, respond) => {
             review,
             course:courseId,
         });
+        console.log("dsfdsfds");
         // update the reference in course Schema
-        const updatedCourseWithNewRatingAndReview = await Course.findByIdAndUpdate({ _id:courseId} , {$push: {ratingAndReviews: newRatingAndReview._id}} , {new:true}).populate("ratingAndReview").exec();
+        const updatedCourseWithNewRatingAndReview = await Course.findByIdAndUpdate(courseId, {$push: {ratingAndReviews: newRatingAndReview}} );
+        await enrolledStudent.save();
         // return response
         return respond.status(200).json({
             success:true,
@@ -165,7 +167,7 @@ exports.getAllRating = async(request, respond) => {
         return respond.status(200).json({
             success:true,
             message:"All rating And Reviews fetched successfully",
-            body:allReviews
+            data:allReviews
         });
     }
     catch(error){
@@ -196,142 +198,3 @@ exports.getAllRating = async(request, respond) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // create rating and review
-// exports.createRating = async(request, respond ) => {
-//     try{
-//         // get user id
-//         const userId = request.id;
-//         // get rating , review and course 
-//         const {courseId, rating, review } = request.body;
-//         // check if user is enrolled or not
-//         const courseDetails = await Course.findById({_id:courseId, studentEnrolled: {$elemMatch: {$eq: userId}}});
-//         if(!courseDetails) {
-//             return respond.status(404).json({
-//                 success:false,
-//                 message:"Students is not enrolled in the course",
-//             })
-//         }
-//         // check if user already review the course
-//         const checkAlreadyReviewd = await RatingAndReview.findOne({user:userId, course:courseId});
-//         if(checkAlreadyReviewd) {
-//             return respond.status(300).json({
-//                 success:false,
-//                 message:"Course is already reviewed by the user",
-//             })
-//         }
-//         // create a rating and review
-//         const newRatingAndReview = await RatingAndReview.create({
-//             user:userId,
-//             rating:rating,
-//             review:review,
-//             course:courseId,
-//         });
-//         // update ref in Course
-//         const updatedCourseWithNewRatingAndReview = await Course.findByIdAndUpdate({_id:courseId}, {$push: {ratingAndReviews: newRatingAndReview._id}}, {new:true});
-//         // send success flag
-//         respond.status(200).json({
-//             success:true,
-//             message:"Rating and Review created successfully",
-//             data:newRatingAndReview,
-//         })
-//     }
-//     catch(error){
-//         respond.status(300).json({
-//             success:false,
-//             message:"Internal Server error",
-//             error:error.message,
-//         });
-//     }
-// }
-
-
-// /********************************************************************************************************************* */
-
-// // find average rating
-
-// exports.getAverageRating = async(request, respond) => {
-//     try{
-//         // get courseId
-//         const {courseId} = request.body;
-//         // calculate average rating
-//         const result = await RatingAndReview.aggregate([
-//             {
-//                 $math:{
-//                     course: new mongoose.Types.ObjectOd(courseId),
-//                 },
-//             },
-//             {
-//                 $group: {
-//                     _id:null,
-//                     averageRating: {$avg: "$rating"},
-//                 }
-//             }
-//         ])
-//         // return rating
-//         if(result.length > 0) {
-//             return respond.status(200).json({
-//                 success:true,
-//                 averageRating:result[0].averageRating,
-//             });
-//         } 
-//         // if no rating and reviews
-//         return respond.status(200).json({
-//             success:false,
-//             message:"Average rating is 0 as no rating is given now",
-//             averageRating:0,
-//         })
-//     }
-//     catch(error){
-//         respond.status(300).json({
-//             success:false,
-//             message:"Internal Server error",
-//             error:error.message,
-//         });
-//     }
-// }
-
-// /*********************************************************************************************************************/
-
-// // getAllRatings
-// exports.getAllRating = async(request, respond) => {
-//     try{
-//         const allReviews = await RatingAndReview.find({}).sort({rating:"desc"})
-//             .populate({
-//                 path:"user",
-//                 select:"firstName lastName email image",
-//             }).populate({
-//                 path:"course",
-//                 select:"courseName",
-//             }).exec();
-        
-//         return respond.status(200).json({
-//             success:false,
-//             message:"All course details fetched successfully",
-//             data:allReviews,
-//         });
-//     }
-//     catch(error){
-//         respond.status(300).json({
-//             success:false,
-//             message:"Internal Server error",
-//             error:error.message,
-//         });
-//     }
-// }

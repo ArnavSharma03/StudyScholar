@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-//import { ReactMarkdown } from "react-markdown/lib/react-markdown"
+import ReactMarkdown from 'react-markdown';
 
 
 
@@ -135,12 +135,8 @@ const CourseDetails = () => {
 
 
 
-    const { _id: course_id, courseName, courseDescription, thumbnail, price, whatYouWillLearn, courseContent,
-        ratingAndReviews,
-        instructor,
-        studentsEnroled,
-        createdAt,
-    } = courseData.data?.courseDetails;
+    const { _id: course_id, courseName, courseDescription, thumbnail, price, whatYouWillLearn, courseContent, ratingAndReviews,instructor,studentEnrolled ,createdAt,
+        } = courseData.data?.courseDetails;
 
 
 
@@ -164,8 +160,8 @@ const CourseDetails = () => {
                         <div className="text-md flex flex-wrap items-center gap-2">
                             <span className="text-yellow-25">{avgReviewCount}</span>
                             <RatingStars Review_Count={avgReviewCount} Star_Size={24} />
-                            {/* <span> {`(${ratingAndReviews.length} reviews)`} </span> */}
-                            {/*  <span> {`${studentsEnroled.length} students enrolled`} </span> */}
+                            <span> {`(${ratingAndReviews.length} reviews)`} </span> 
+                            <span> {`${studentEnrolled.length} students enrolled`} </span> 
                         </div>
 
 
@@ -210,9 +206,9 @@ const CourseDetails = () => {
                             What You Will Learn 
                         </p>
                         <div className="mt-5">
-                            {/* <ReactMarkdown> */}
+                            <ReactMarkdown> 
                                 { whatYouWillLearn }
-                            {/* </ReactMarkdown> */}
+                            </ReactMarkdown>
                         </div>
                     </div>
 
@@ -259,15 +255,11 @@ const CourseDetails = () => {
 
 
             {/* Author Details */}
-            <div className="mb-12 py-4">
-                <p className="text-[28px] font-semibold">Author</p>
+            <div className="mb-12 py-11">
+                <p className="text-[28px] font-semibold">About Author</p>
                 <div className="flex items-center gap-4 py-4">
                     <img
-                        src={
-                            instructor.image
-                            ? instructor.image
-                            : `https://api.dicebear.com/5.x/initials/svg?seed=${instructor.firstName} ${instructor.lastName}`
-                        }
+                        src={ instructor.image ? instructor.image : `https://api.dicebear.com/5.x/initials/svg?seed=${instructor.firstName} ${instructor.lastName}` }
                         alt="Author"
                         className="h-14 w-14 rounded-full object-cover"
                     />

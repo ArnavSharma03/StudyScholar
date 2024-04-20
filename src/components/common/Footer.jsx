@@ -174,7 +174,7 @@ const Footer = () => {
             })}
           </div>
 
-          <div className="text-center">Made with ❤️ || CodePlay</div>
+          <div className="text-center">Made with ❤️ || Study Scholar</div>
         </div>
       </div>
     </div>

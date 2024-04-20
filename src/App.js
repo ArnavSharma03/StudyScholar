@@ -1,13 +1,12 @@
 // React
-import { useEffect } from "react"
 import "./App.css"
 
 
 // Redux
-import { useDispatch, useSelector } from "react-redux"
+import {  useSelector } from "react-redux"
 
 // React Router
-import { Route, Routes, useNavigate } from "react-router-dom"
+import { Route, Routes,  } from "react-router-dom"
 
 
 // Components
@@ -26,6 +25,7 @@ import VerifyEmail from "./pages/VerifyEmail";
 import Error from "./pages/Error";
 import Catalog from "./pages/Catalog";
 import CourseDetails from "./pages/CourseDetails";
+import ViewCourse from "./pages/ViewCourse";
 
 // private routes and open Routes
 import OpenRoute from "./components/core/Auth/OpenRoute";
@@ -33,12 +33,13 @@ import PrivateRoute from "./components/core/Auth/PrivateRoute";
 import Dashboard from "./pages/Dashboard";
 import MyProfile from "./components/core/Dashboard/MyProfile";
 import Settings from "./components/core/Dashboard/Settings";
-import EnrolledCourses from "./components/core/Dashboard/EnrolledCourses";
+import EnrolledCourses from "./components/core/Dashboard/EnrolledCourses/EnrolledCourses";
 import Cart from "./components/core/Dashboard/Cart";
 import { ACCOUNT_TYPE } from "./utils/constants";
 import AddCourse from "./components/core/Dashboard/AddCourse/index";
 import MyCourses from "./components/core/Dashboard/MyCourses";
 import EditCourse from "./components/core/Dashboard/EditCourse";
+import VideoDetails from "./components/core/ViewCourse/VideoDetails";
 
 
 function App() {
@@ -125,6 +126,32 @@ function App() {
             { /* Alone dashboard page doesn't exist as single entity ---> always used with dashboard/my-profile */}
             {/* Below route is only for testing purpose */}
             <Route path="dashboard" element= {  <PrivateRoute> <div className="text-white" > Welcome to dashboard </div>  </PrivateRoute> }  />
+
+
+
+
+
+            {/* View Course Components ---> Later Added */}
+            <Route element = { <PrivateRoute> <ViewCourse /> </PrivateRoute> }>
+
+
+                {
+                    user?.accountType === ACCOUNT_TYPE.STUDENT && (
+                        <>
+                            <Route 
+                                path="view-course/:courseId/section/:sectionId/sub-section/:subSectionId"
+                                element={ <VideoDetails /> }  
+                            />
+                        </>
+                    )
+                }
+
+
+
+
+            </Route>
+
+
 
 
 

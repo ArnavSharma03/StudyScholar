@@ -160,7 +160,6 @@ exports.getCategoryPageDetails = async(request, respond) => {
         const categoriesExceptSelected = await Category.find({ _id: {$ne: categoryId}, }).populate("courses").exec();
         
         //console.log( categoriesExceptSelected );
-
         let differentCategory = await Category.findOne(
             categoriesExceptSelected[getRandomInt(categoriesExceptSelected.length)]._id)
             .populate({
@@ -168,8 +167,8 @@ exports.getCategoryPageDetails = async(request, respond) => {
                 match: { status: "Published" },
             })
             .exec();
-
-            
+        
+        
         // Get Top selling courses
         const allCategoires = await Category.find()
             .populate({ 

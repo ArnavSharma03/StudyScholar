@@ -2,6 +2,9 @@ const { response } = require("express");
 const Profile = require("../models/Profile");
 const User = require("../models/User");
 const Course = require("../models/Course");
+const CourseProgress = require("../models/CourseProgress");
+
+
 
 const uploadImageToCloudinary = require("../utils/imageUploader");
 
@@ -9,7 +12,7 @@ const uploadImageToCloudinary = require("../utils/imageUploader");
 
 
 
-
+const { convertSecondsToDuration } = require("../utils/secToDuration");
 
 
 
@@ -301,7 +304,52 @@ exports.updateDisplayPicture = async(request, respond) => {
 exports.getEnrolledCourses = async (request, respond ) => {
     try{
         const userId = request.user.id;
-        const existingUser = await User.findOne({_id:userId}).populate("courses").exec();
+
+        let existingUser = await User.findOne({ _id: userId })
+            .populate({
+                path: "courses",
+                populate: {
+                    path: "courseContent",
+                populate: {
+                    path: "subSection",
+                },
+                },
+            })
+
+
+
+
+        // Calculate Duration of Courses
+        existingUser = existingUser.toObject()
+        var SubsectionLength = 0
+        for (var i = 0; i < existingUser.courses.length; i++) {
+            let totalDurationInSeconds = 0
+            SubsectionLength = 0
+            for (var j = 0; j < existingUser.courses[i].courseContent.length; j++) {
+                totalDurationInSeconds += existingUser.courses[i].courseContent[
+                    j
+                    ].subSection.reduce((acc, curr) => acc + parseInt(curr.timeDuration), 0)
+                    existingUser.courses[i].totalDuration = convertSecondsToDuration( totalDurationInSeconds)
+                    SubsectionLength += existingUser.courses[i].courseContent[j].subSection.length
+            }
+            let courseProgressCount = await CourseProgress.findOne({
+                courseID: existingUser.courses[i]._id,
+                userId: userId,
+            })
+            courseProgressCount = courseProgressCount?.completedVideos.length;
+            if (SubsectionLength === 0) {
+                existingUser.courses[i].progressPercentage = 100
+            } 
+            else {
+                // To make it up to 2 decimal point
+                const multiplier = Math.pow(10, 2)
+                existingUser.courses[i].progressPercentage =
+                Math.round( (courseProgressCount / SubsectionLength) * 100 * multiplier ) / multiplier
+            }
+        }
+
+
+
 
         if(!existingUser) {
             return respond.status(400).json({

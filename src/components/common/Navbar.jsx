@@ -15,7 +15,7 @@ import ProfileDropDown from "../core/Auth/ProfileDropDown";
 import { apiConnector } from "../../services/apiconnector";
 
 import { categories } from "../../services/apis"; 
-
+import { ACCOUNT_TYPE } from "../../utils/constants";
 
 
 
@@ -142,12 +142,17 @@ const Navbar = () => {
                     
 
 
-                    {/* Below code will check that incoming user is instructor if yes than show cart and total items*/}
+                    {/* Below code will check that incoming user is  studnet if yes than show cart and total items*/}
                     {
-                        user && user.accountType != "Instructor" && (
+                        user && user?.accountType !== ACCOUNT_TYPE.INSTRUCTOR && (
                             <Link to="/dashboard/cart" className="relative">
-                                <AiOutlineShoppingCart />
-                                { totalItems > 0 && ( <span> {totalItems} </span> ) }
+                                <AiOutlineShoppingCart className="text-2xl text-richblack-100" />
+                                {totalItems > 0 && (
+                                    <span className="absolute -bottom-2 -right-2 grid h-5 w-5 place-items-center overflow-hidden rounded-full bg-richblack-600 text-center text-xs font-bold text-yellow-100">
+                                        {totalItems}
+                                    </span>
+                                )
+                                }
                             </Link>
                         )
                     }

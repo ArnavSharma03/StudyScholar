@@ -28,6 +28,13 @@ const { CREATE_SUBSECTION_API, UPDATE_SUBSECTION_API, DELETE_SUBSECTION_API } = 
 
 
 
+// RATING AND REVIEW
+const { CREATE_RATING_API } = courseEndpoints;
+const { LECTURE_COMPLETION_API } = courseEndpoints;
+
+
+
+
 
 
 
@@ -542,6 +549,16 @@ export const updateSubSection = async (data, token) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
 // delete a subsection
 export const deleteSubSection = async (data, token) => {
     let result = null;
@@ -562,3 +579,82 @@ export const deleteSubSection = async (data, token) => {
     toast.dismiss(toastId);
     return result;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// create a rating for course
+export const createRating = async (data, token) => {
+    const toastId = toast.loading("Loading...")
+    let success = false
+    try {
+        const response = await apiConnector("POST", CREATE_RATING_API, data, { Authorization: `Bearer ${token}`, })
+        console.log("CREATE RATING API RESPONSE............", response);
+        if (!response?.data?.success) {
+            throw new Error("Could Not Create Rating");
+        }
+        toast.success("Rating Created");
+        success = true;
+    } 
+    catch (error) {
+        success = false
+        console.log("CREATE RATING API ERROR............", error)
+        toast.error(error.message)
+    }
+    toast.dismiss(toastId)
+    return success
+}
+
+
+
+
+
+
+
+
+// mark a lecture as complete
+export const markLectureAsComplete = async (data, token) => {
+    let result = null
+    console.log("mark complete data", data)
+    const toastId = toast.loading("Loading...")
+    try { 
+        const response = await apiConnector("POST", LECTURE_COMPLETION_API, data, { Authorization: `Bearer ${token}` });
+        console.log( "MARK_LECTURE_AS_COMPLETE_API API RESPONSE............", response);
+
+        if (!response.data.message) {
+            throw new Error(response.data.error);
+        }
+        toast.success("Lecture Completed");
+        result = true;
+    } 
+    catch (error) {
+        console.log("MARK_LECTURE_AS_COMPLETE_API API ERROR............", error);
+        toast.error(error.message);
+        result = false;
+    }
+    toast.dismiss(toastId);
+    return result;
+}
+
+
+

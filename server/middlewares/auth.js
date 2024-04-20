@@ -32,7 +32,6 @@ exports.auth = async(request, respond, next) => {
         try{
             // extract payload from token, that create while signUp ie.(user_id,email,role)
             const payload = await jwt.verify(token, process.env.JWT_SECRET);
-            console.log(payload);
             request.user = payload;
         }
         catch(error) {

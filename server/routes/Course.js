@@ -21,21 +21,24 @@ const { createSubSection, updateSubSection, deleteSubSection} =  require("../con
 const { createRating, getAverageRating, getAllRating} = require("../controllers/RatingAndReview");
 
 
-
+//Newly Added
+const { updateCourseProgress } = require("../controllers/CourseProgress");
 
 
 // contollers ---> Category.js
 router.post("/createCategory", auth , isAdmin, createCategory);         
 router.get("/getAllCategories", getAllCategories);                 
-router.post("/getCategoryPageDetails", getCategoryPageDetails);                           // xxx Testing Left        
+router.post("/getCategoryPageDetails", getCategoryPageDetails);                           // newly Added
 
 
 
 // controllers ---> Course.js
 router.post("/createCourse", auth, isInstructor, createCourse);
-router.post("/editCourse", auth, isInstructor, editCourse);                     // newly added  xxx Testing Left    
+router.post("/editCourse", auth, isInstructor, editCourse);                     // newly added 
 router.get("/getAllCourses", getAllCourses);
 router.post("/getFullCourseDetails",auth, getFullCourseDetails);
+
+
 // Get Details for a Specific Courses
 router.post("/getCourseDetails", getCourseDetails);                               // newly added
 router.delete("/deleteCourse", deleteCourse);                                     // newly added
@@ -56,9 +59,14 @@ router.delete("/deleteSubSection", auth, isInstructor, deleteSubSection);
 
 
 // contollers ---> RatingAndReview.js
-router.post("/createRating", auth, isStudent, createRating);                        // xxx Testing Left          
+router.post("/createRating", auth, isStudent, createRating);                        
 router.get("/getAverageRating", getAverageRating);                                  // xxx Testing Left          
 router.get("/getReviews", getAllRating);                                            // xxx Testing Left          
+
+
+
+// Newly Added
+router.post("/updateCourseProgress", auth, isStudent, updateCourseProgress);             // xxx Testing Left
 
 
 
