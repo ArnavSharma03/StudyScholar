@@ -6,9 +6,9 @@ const { capturePayment, verifyPayment, sendPaymentSuccessEmail } = require("../c
 const { auth, isInstructor, isStudent , isAdmin } = require("../middlewares/auth");
 
 // controllers ---> Payments.js
-router.post("/capturePayment", auth, isStudent, capturePayment);                    // xxx Testing left
-router.post("/verifyPayment", auth, isStudent, verifyPayment);                    // xxx Testing left
-router.post("/sendPaymentSuccessEmail", auth, isStudent, sendPaymentSuccessEmail);  // xxx Testing left                                    // xxx Testing left
+router.post("/capturePayment", auth, isStudent, capturePayment);                    
+router.post("/verifyPayment", auth, isStudent, verifyPayment);                    
+router.post("/sendPaymentSuccessEmail", auth, isStudent, sendPaymentSuccessEmail); 
 
 
 

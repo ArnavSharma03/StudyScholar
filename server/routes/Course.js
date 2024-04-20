@@ -25,6 +25,12 @@ const { createRating, getAverageRating, getAllRating} = require("../controllers/
 const { updateCourseProgress } = require("../controllers/CourseProgress");
 
 
+
+
+
+
+
+
 // contollers ---> Category.js
 router.post("/createCategory", auth , isAdmin, createCategory);         
 router.get("/getAllCategories", getAllCategories);                 
