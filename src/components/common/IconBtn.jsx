@@ -11,7 +11,7 @@ const IconBtn = ( {text, onclick, children, disabled, outline = false,  customCl
                 type={type}
             >
                 {
-                    children ? 
+                    children ?  
                     ( 
                         <>
                             <span className={`${outline && "text-yellow-50"}` }> {text}  </span>
